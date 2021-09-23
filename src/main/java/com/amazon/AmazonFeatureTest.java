@@ -6,12 +6,14 @@ import org.junit.runner.OrderWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ISelect;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class AmazonFeatureTest {
@@ -65,6 +67,32 @@ public class AmazonFeatureTest {
         WebElement nthProduct=driver.findElement(By.xpath(xpathExpression));
         String nthProductResult=nthProduct.getText();
         System.out.println(nthProductResult);
+    }
+    @Test(priority = 300,enabled = false)
+    public void getAllProducts()
+    {
+        List<WebElement> allProducts=driver.findElements(By.xpath("//div[@data-component-type='s-search-result']"));
+                String productResult;
+        for(WebElement product: allProducts) {
+            productResult = product.getText();
+            System.out.println(productResult);
+            System.out.println("-------------------");
+        }
+
+
+    }
+    @Test(priority = 400)
+    public void searchAllProductsViaScrollDown() {
+
+        List<WebElement> allProducts = driver.findElements(By.xpath("//div[@data-component-type='s-search-result']"));
+        String productResult;
+        Actions actions = new Actions(driver);
+        for (WebElement product : allProducts) {
+            actions.moveToElement(product).build().perform();
+            productResult = product.getText();
+            System.out.println(productResult);
+            System.out.println("-------------------");
+        }
     }
 
 }
